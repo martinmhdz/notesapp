@@ -1,3 +1,13 @@
+//my add
+import { PubSub } from '@aws-amplify/pubsub';
+
+const pubsub = new PubSub({
+  region: 'us-east-1',
+  endpoint:
+    'a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com'
+});
+
+
 import { useState, useEffect } from "react";
 import {
   Authenticator,
@@ -25,6 +35,19 @@ Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
 });
+
+
+PubSub.subscribe('myTopic').subscribe({
+  next: data => console.log('Message received', data),
+  error: error => console.error(error),
+  close: () => console.log('Done'),
+});
+
+await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
+
+
+
+
 
 export default function App() {
   const [notes, setNotes] = useState([]);
