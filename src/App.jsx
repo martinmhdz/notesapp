@@ -1,10 +1,3 @@
-import './App.css';
-import PubSub from '@aws-amplify/pubsub';
-import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
-
-
-
-
 import { useState, useEffect } from "react";
 import {
   Authenticator,
@@ -28,40 +21,10 @@ import outputs from "../amplify_outputs.json";
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
 
-
-
-Amplify.Logger.LOG_LEVEL = 'VERBOSE';
-Amplify.addPluggable(new AWSIoTProvider({
-  aws_pubsub_region: 'us-east-1',
-  aws_pubsub_endpoint:  'a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com',
-}));
-
-
-
-
 Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
 });
-
-PubSub.configure();
-PubSub.subscribe('myTopic1').subscribe({
-  next: data => console.log('Message received', data),
-  error: error => console.error(error),
-  close: () => console.log('Done'),
-});
-
-function App() {
-  return (
-    <div className="App">
-      <AmplifySignOut />
-      <EventViewer/>
-    </div>
-  );
-}
-
-
-
 
 export default function App() {
   const [notes, setNotes] = useState([]);
