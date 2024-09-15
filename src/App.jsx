@@ -7,6 +7,10 @@ const pubsub = new PubSub({
     'a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com'
 });
 
+import { fetchAuthSession } from 'aws-amplify/auth';
+fetchAuthSession().then((info) => {
+  const cognitoIdentityId = info.identityId;
+});
 
 import { useState, useEffect } from "react";
 import {
@@ -37,13 +41,14 @@ const client = generateClient({
 });
 
 
-PubSub.subscribe('myTopic').subscribe({
-  next: data => console.log('Message received', data),
-  error: error => console.error(error),
-  close: () => console.log('Done'),
+pubsub.subscribe({ topics: 'myTopic' }).subscribe({
+  next: (data) => console.log('Message received', data),
+  error: (error) => console.error(error),
+  complete: () => console.log('Done')
 });
 
-await PubSub.publish('myTopic1', { msg: 'Hello to all subscribers!' });
+await pubsub.publish({ topics: 'myTopic1', message: { msg: 'Hello to all subscribers!' } });
+
 
 
 
