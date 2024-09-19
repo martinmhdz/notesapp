@@ -11,33 +11,19 @@ import {
   Grid,
   Divider,
 } from "@aws-amplify/ui-react";
-import { Amplify, PubSub } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import { getUrl } from "aws-amplify/storage";
 import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
 import outputs from "../amplify_outputs.json";
-
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+/**
+ * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
+ */
 
 Amplify.configure(outputs);
 const client = generateClient({
   authMode: "userPool",
-});
-
-// Apply plugin with configuration
-Amplify.addPluggable(
-  new AWSIoTProvider({
-    aws_pubsub_region: "us-east-1",
-    aws_pubsub_endpoint:
-      "wss://a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com/mqtt",
-  })
-);
-
-PubSub.subscribe("myTopic").subscribe({
-  next: (data) => console.log("Message received", data),
-  error: (error) => console.error(error),
-  complete: () => console.log("Done"),
 });
 
 export default function App() {
