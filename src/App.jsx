@@ -18,7 +18,7 @@ const pubsub = new PubSub({
 });
 
 
-PubSub.subscribe({ topics: 'myTopic' }).subscribe({
+pubsub.subscribe({ topics: 'myTopic' }).subscribe({
   next: (data) => console.log('Message received', data),
   error: (error) => console.error(error),
   complete: () => console.log('Done')
@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     console.log('Publishing ', count);
-    PubSub.publish({topics: 'hola', message: { msg: `Hello ${count}` },
+    pubsub.publish({topics: 'hola',message: { msg: `Hello ${count}` },
       })
       .catch((err) => console.error(err));
   }, [count]);
