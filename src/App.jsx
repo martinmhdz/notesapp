@@ -5,8 +5,10 @@ import '@aws-amplify/ui-react/styles.css';
 import './App.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from 'aws-amplify/auth';
+import { Amplify} from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
 
-
+Amplify.configure(outputs);
 
 // Apply plugin with configuration
 const pubsub = new PubSub({
