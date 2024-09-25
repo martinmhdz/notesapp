@@ -36,7 +36,7 @@ function App() {
     complete: () => console.log('Done')
   });
   
-  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState(0);
 
   useEffect(() => {
     pubsub.subscribe({topics: ['messages']}).subscribe({
@@ -48,8 +48,8 @@ function App() {
     
 
   
-   return (<>{message}</>
-    );
+   return <>{message}</>
+    
 }
 
 
