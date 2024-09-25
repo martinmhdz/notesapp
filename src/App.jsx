@@ -7,8 +7,17 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { Amplify} from 'aws-amplify';
 import outputs from '../amplify_outputs.json';
+import { Hub } from 'aws-amplify/utils';
 
 Amplify.configure(outputs);
+
+Hub.listen('pubsub', (data: any) => {
+  const { payload } = data;
+  if (payload.event === CONNECTION_STATE_CHANGE) {
+    const connectionState = payload.data.connectionState as ConnectionState;
+    console.log(connectionState);
+  }
+});
 
 import { fetchAuthSession } from 'aws-amplify/auth';
 fetchAuthSession().then((info) => {
