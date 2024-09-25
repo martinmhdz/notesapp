@@ -37,7 +37,7 @@ function App() {
 
   useEffect(() => {
     console.log('Publishing ', count);
-    pubsub.publish({topics: 'hola',message: { msg: `Hello ${count}` },
+    pubsub.publish({topics: 'hola',message: { msg: 'Hello ${count}' },
       })
       .catch((err) => console.error(err));
   }, [count]);
