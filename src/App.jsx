@@ -10,6 +10,11 @@ import outputs from '../amplify_outputs.json';
 
 Amplify.configure(outputs);
 
+import { fetchAuthSession } from 'aws-amplify/auth';
+fetchAuthSession().then((info) => {
+  const cognitoIdentityId = info.identityId;
+});
+
 // Apply plugin with configuration
 const pubsub = new PubSub({
   region: 'us-east-1',
