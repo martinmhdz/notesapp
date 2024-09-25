@@ -26,13 +26,16 @@ const pubsub = new PubSub({
 });
 
 
-pubsub.subscribe({ topics: 'myTopic' }).subscribe({
-  next: (data) => console.log('Message received', data),
-  error: (error) => console.error(error),
-  complete: () => console.log('Done')
-});
+
 
 function App() {
+
+  pubsub.subscribe({ topics: 'myTopic' }).subscribe({
+    next: (data) => console.log('Message received', data),
+    error: (error) => console.error(error),
+    complete: () => console.log('Done')
+  });
+  
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -45,20 +48,8 @@ function App() {
     
 
   
-   return (
-    <>
-      <div>
-      <h1>Vite + React</h1>
-      <>{message}</>
-      <div className="card">
-        
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      </div>
-    </>
-  );
+   return (<>{message}</>
+    );
 }
 
 
