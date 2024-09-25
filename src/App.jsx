@@ -36,19 +36,11 @@ function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    console.log('Publishing ', count);
-    pubsub.publish({topics: 'hola',message: { msg: 'Hello ${count}' },
-      })
-      .catch((err) => console.error(err));
-  }, [count]);
-
-  useEffect(() => {
-    fetchAuthSession().then((info) => {
-      console.log(info.identityId);
+    pubsub.subscribe({topics: ['messages']}).subscribe({
+        next: (data) => {
+          setMessage(data.msg);
+        }
     });
-    // This triggers the connection to the AWS IoT MQTT broker
-    pubsub.subscribe({ topics: [] }).subscribe({});
-
   }, []);
     
 
