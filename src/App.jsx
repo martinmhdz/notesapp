@@ -13,7 +13,7 @@ Amplify.configure(outputs);
 
 
 
-import { fetchAuthSession } from 'aws-amplify/auth';
+
 fetchAuthSession().then((info) => {
   const cognitoIdentityId = info.identityId;
 });
