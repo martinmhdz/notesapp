@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { PubSub } from '@aws-amplify/pubsub';
 import '@aws-amplify/ui-react/styles.css';
@@ -12,45 +11,53 @@ import outputs from '../amplify_outputs.json';
 Amplify.configure(outputs);
 
 
-
-
-fetchAuthSession().then((info) => {
-  const cognitoIdentityId = info.identityId;
-});
-
-// Apply plugin with configuration
 const pubsub = new PubSub({
+  endpoint: 'wss://a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com/mqtt',
   region: 'us-east-1',
-  endpoint:
-    'wss://a2rpxp8igt30g1-ats.iot.us-east-1.amazonaws.com/mqtt'
 });
 
 
 
 
 function App() {
-
-  pubsub.subscribe({ topics: 'myTopic' }).subscribe({
-    next: (data) => console.log('Message received', data),
-    error: (error) => console.error(error),
-    complete: () => console.log('Done')
-  });
-  
-  const [message, setMessage] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    pubsub.subscribe({topics: ['messages']}).subscribe({
-        next: (data) => {
-          setMessage(data.msg);
-        }
+    console.log('Publishing ', count);
+    pubsub
+      .publish({
+        topics: 'hello',
+        message: { msg: 'Hello ${count}' },
+      })
+      .catch((err) => console.error(err));
+  }, [count]);
+
+  useEffect(() => {
+    fetchAuthSession().then((info) => {
+      console.log(info.identityId);
     });
+    // This triggers the connection to the AWS IoT MQTT broker
+    pubsub.subscribe({ topics: 'myTopic' }).subscribe({});
+
   }, []);
-    
 
-  
-   return <>{message}</>
-    
+  return (
+      <div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button
+          onClick={async () => {
+            setCount((count) => count + 1);
+          }}
+        >
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+    </div>
+  );
 }
-
 
 export default withAuthenticator(App);
